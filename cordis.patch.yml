@@ -1,0 +1,27 @@
+- id: tool-skill
+  disabled: false
+
+- insert:
+    - id: kling-ai-skill
+      name: kling-ai-deepseek-harness
+
+    - id: kling-ai-remote
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: Plugin-DeepSeek-kling-ai
+        transport: stdio
+        command: npx
+        args:
+          - -y
+          - mcp-remote@0.2.0
+          - https://klingai.com/mcp
+          - --transport
+          - http-only
+          - --static-oauth-client-metadata
+          - '{"client_name":"Plugin-DeepSeek"}'
+          - --header
+          - 'X-Kling-Integration:Plugin-DeepSeek'
+          - --auth-timeout
+          - '180'
+        toolCallTimeoutMs: 600000
+        failOnStartupError: false
