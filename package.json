@@ -1,0 +1,58 @@
+{
+  "name": "kling-ai-deepseek-harness",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Turn every idea into an image or video with Kling AI. In DeepSeek Harness, use natural language for text-to-image, image-to-image, text-to-video, image-to-video, reference-image creation, task tracking, and result previews.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klingai-dev/deepseek-plugin.git"
+  },
+  "homepage": "https://github.com/klingai-dev/deepseek-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/klingai-dev/deepseek-plugin/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "kling-ai",
+    "mcp"
+  ],
+  "author": "KLING AI Pte Ltd",
+  "license": "MIT",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "skills/kling-ai/SKILL.md"
+  ],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "inject": ["@deepseek-ai/dsh-client-ui-tool"],
+      "platform": "web"
+    },
+    "descriptionZh": "一句话，让灵感从想法变成大片。在 DeepSeek Harness 中直接用自然语言调用可灵 AI，支持文生图、图生图、文生视频、图生视频、参考图创作、任务跟踪和结果预览。"
+  },
+  "scripts": {
+    "build": "node scripts/build-client.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "npm run build && npm run check",
+    "verify:bridge": "node scripts/verify-mcp-remote-oauth.mjs",
+    "verify:installed": "node scripts/verify-dsh-runtime.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {},
+  "devDependencies": {
+    "esbuild": "^0.25.9"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}
