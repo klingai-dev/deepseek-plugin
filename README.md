@@ -84,25 +84,3 @@ Harness 官方 MCP 客户端 0.1.0-rc.6 目前只桥接 tools，不消费 MCP re
 同一次可灵工具调用保留下来的文本结果中读取完整 `https://*.klingai.com` 媒体 URL，
 内嵌预览图片或视频，并保留原始链接。它不是 MCP App，也不会调用工具、自动刷新或
 提交生成；真实生成仍由远端 MCP 完成并受 Skill 的确认与单次提交约束。
-
-## 跨平台呈现契约
-
-- 不复制或链接仓库根目录的本地 `mcp-app/`，不把 Harness 原生结果卡称为 MCP App。
-- 结果卡只承担呈现，不调用工具、不拥有轮询、不改变计费与任务状态；无法识别媒体时
-  保持普通工具结果回落。
-- Harness 官方 MCP 客户端增加 resources consumer 后，直接消费远端
-  `_meta.ui.resourceUri`，届时删除此宿主适配，避免与标准 MCP App 重复呈现。
-
-## OAuth bridge 边界
-
-本包固定 `mcp-remote@0.2.0`，不使用会随时间漂移的 `@latest`。仓库的
-`npm run verify:bridge` 会用本地假 OAuth/MCP 服务验证 protected-resource
-discovery、动态注册、`Plugin-DeepSeek` 客户端名、S256 PKCE、token endpoint、
-Bearer 重试和 `tools/list`；测试不会打开真实浏览器、读取凭据或调用 Kling。
-
-上游仍有运行中 access/refresh token 同时失效后 callback listener 未重建的
-[问题 #248](https://github.com/geelen/mcp-remote/issues/248)，以及异常退出后旧
-callback 端口冲突的[问题 #253](https://github.com/geelen/mcp-remote/issues/253)。
-遇到授权过期时先停止并重新启动 `dsh web`，只完成新进程打开的一次授权。
-不要反复点击多个旧授权页，也不要直接分享 `~/.mcp-auth` 或 `--debug` 产生的
-原始日志；其中可能包含 OAuth 状态和敏感诊断信息。
